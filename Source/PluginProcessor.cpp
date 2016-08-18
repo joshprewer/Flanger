@@ -131,6 +131,12 @@ void FlangerAudioProcessor::processBlock (AudioSampleBuffer& buffer, MidiBuffer&
     for (int channel = 0; channel < totalNumInputChannels; ++channel)
     {
         float* channelData = buffer.getWritePointer (channel);
+        
+        for (int i = 0; i < buffer.getNumSamples(); i++){
+            
+            LFO = lfo.updateDelta();
+            
+        }
 
         // ..do something to the data...
     }

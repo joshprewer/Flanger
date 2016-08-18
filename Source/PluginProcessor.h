@@ -12,6 +12,7 @@
 #define PLUGINPROCESSOR_H_INCLUDED
 
 #include "../JuceLibraryCode/JuceHeader.h"
+#include "SineGenerator.h"
 
 
 //==============================================================================
@@ -57,6 +58,10 @@ public:
     void setStateInformation (const void* data, int sizeInBytes) override;
 
 private:
+    
+    SineGenerator lfo;
+    int LFO;
+    
     //==============================================================================
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (FlangerAudioProcessor)
 };
