@@ -10,18 +10,18 @@
 
 #include "SineGenerator.h"
 
-SineGenerator::SineGenerator()
-{
 
-    double cyclesPerSample = frequency / sampleRate;
+void SineGenerator::initialiseSine(double freqeuncy)
+{
+    kFrequency = freqeuncy;
+    double cyclesPerSample = kFrequency / sampleRate;
     delta = cyclesPerSample * 2 * double_Pi;
-    
 }
 
-int SineGenerator::updateDelta()
+float SineGenerator::updateDelta()
 {
     currentAnlge += delta;
-    lfoOutput = roundToInt(661.5 + (661.5 * std::sin(currentAnlge)));
-    return lfoOutput;
+    sinOutput = std::sin(currentAnlge);
+    return sinOutput;
 }
 

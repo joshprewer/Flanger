@@ -13,6 +13,7 @@
 
 #include "../JuceLibraryCode/JuceHeader.h"
 #include "SineGenerator.h"
+#include "FractionalDelay.h"
 
 
 //==============================================================================
@@ -59,8 +60,14 @@ public:
 
 private:
     
-    SineGenerator lfo;
+    
+    //SineGenerator lfo;
+    
+    SineGenerator outputWaveL;
+    SineGenerator outputWaveR;
+    
     int LFO;
+    float output;
     
     //==============================================================================
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (FlangerAudioProcessor)

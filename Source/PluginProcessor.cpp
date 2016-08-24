@@ -10,7 +10,7 @@
 
 #include "PluginProcessor.h"
 #include "PluginEditor.h"
-
+//#include "vector.h"
 
 //==============================================================================
 FlangerAudioProcessor::FlangerAudioProcessor()
@@ -116,7 +116,10 @@ void FlangerAudioProcessor::processBlock (AudioSampleBuffer& buffer, MidiBuffer&
 {
     const int totalNumInputChannels  = getTotalNumInputChannels();
     const int totalNumOutputChannels = getTotalNumOutputChannels();
-
+    
+    outputWaveL.initialiseSine(500);
+    outputWaveR.initialiseSine(500);
+    
     // In case we have more outputs than inputs, this code clears any output
     // channels that didn't contain input data, (because these aren't
     // guaranteed to be empty - they may contain garbage).
@@ -131,11 +134,24 @@ void FlangerAudioProcessor::processBlock (AudioSampleBuffer& buffer, MidiBuffer&
     for (int channel = 0; channel < totalNumInputChannels; ++channel)
     {
         float* channelData = buffer.getWritePointer (channel);
+        float flangedData;
+        
+        float sine;
+        
+        //lfo.initialiseSine(1);
         
         for (int i = 0; i < buffer.getNumSamples(); i++){
             
-            LFO = lfo.updateDelta();
+            //LFO = lfo.updateDelta();
             
+            if (channel == 0){
+                sine = 0.5 * outputWaveL.updateDelta();
+            }
+            else{
+                sine = 0.5 * outputWaveR.updateDelta();
+            }
+            
+            channelData[i] = sine;
         }
 
         // ..do something to the data...

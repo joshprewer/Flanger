@@ -17,9 +17,10 @@
 class SineGenerator
 {
 public:
-    SineGenerator();
     
-    int updateDelta();
+    void initialiseSine(double freqeuncy);
+    
+    float updateDelta();
     
     
 private:
@@ -27,8 +28,8 @@ private:
     double sampleRate = 44100;
     double currentAnlge;
     double delta;
-    double frequency = 5512.5;
-    int lfoOutput;
+    double kFrequency;
+    float sinOutput;
     
 };
 

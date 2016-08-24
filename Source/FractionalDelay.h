@@ -11,7 +11,7 @@
 #ifndef FRACTIONALDELAY_H_INCLUDED
 #define FRACTIONALDELAY_H_INCLUDED
 
-
+float processValues(float data, int delay);
 
 
 
