@@ -442,7 +442,6 @@
 		46309496CD2C74C760D1C3DB /* juce_MPEZone.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = juce_MPEZone.cpp; path = ../../../JUCE/modules/juce_audio_basics/mpe/juce_MPEZone.cpp; sourceTree = SOURCE_ROOT; };
 		466AD916B39B6B85262E3195 /* juce_MemoryOutputStream.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = juce_MemoryOutputStream.cpp; path = ../../../JUCE/modules/juce_core/streams/juce_MemoryOutputStream.cpp; sourceTree = SOURCE_ROOT; };
 		469AB560092E969A6697D96A /* juce_ImageEffectFilter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = juce_ImageEffectFilter.h; path = ../../../JUCE/modules/juce_graphics/effects/juce_ImageEffectFilter.h; sourceTree = SOURCE_ROOT; };
-		46CCFBE01D6DBB9300D46581 /* vector.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = vector.h; path = ../../../StanfordCPPLib/StanfordCPPLib/vector.h; sourceTree = "<group>"; };
 		46FAD8356B8D603D5B5AE8D2 /* compress.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = compress.c; path = ../../../JUCE/modules/juce_core/zip/zlib/compress.c; sourceTree = SOURCE_ROOT; };
 		4776E2C0BF4627832846F31E /* juce_CoreAudioFormat.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = juce_CoreAudioFormat.h; path = ../../../JUCE/modules/juce_audio_formats/codecs/juce_CoreAudioFormat.h; sourceTree = SOURCE_ROOT; };
 		47B9DE0EB8C82C007638A396 /* cpu.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = cpu.h; path = ../../../JUCE/modules/juce_audio_formats/codecs/flac/libFLAC/include/private/cpu.h; sourceTree = SOURCE_ROOT; };
@@ -3535,7 +3534,6 @@
 		E067DDE0CD08829B109327D5 /* Source */ = {
 			isa = PBXGroup;
 			children = (
-				46CCFBE01D6DBB9300D46581 /* vector.h */,
 				1B81AD62B2E0276DDDB3EA96 /* FractionalDelay.cpp */,
 				A43FBA0423F603CE54C02EB7 /* FractionalDelay.h */,
 				48F6313D4008A518771CE363 /* SineGenerator.cpp */,

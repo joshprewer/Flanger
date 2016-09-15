@@ -9,12 +9,44 @@
 */
 
 #include "FractionalDelay.h"
+#include <vector>
 
 
-float processValues(float data, int delay)
+FractionalDelay::FractionalDelay()
 {
-    float outputValues;
-    float m = (data - outputValues) / (delay);
-    outputValues = outputValues + (m * (1/44100));
-    return outputValues;
+    index = 0;
+    bufferSize = 0;
+    
+}
+
+void FractionalDelay::setBufferSize(int size)
+{
+    bufferSize = size;
+    buffer = new float[bufferSize];
+}
+
+float FractionalDelay::processValues(float data, int delay)
+{
+ 
+    float m = (data - buffer[index]) / (delay - index);
+    float c = data - (m * delay);
+    
+    for (int i = index; i <= delay; i++)
+    {
+        float lineData = buffer[i] + (m * (i) + c);
+        
+        if (i == 0)
+        {
+            buffer[0] = lineData;
+        }
+        else
+        {
+            buffer[i] = lineData;
+        }
+        
+    }
+    
+    index++;
+    return buffer[index];
+    
 };

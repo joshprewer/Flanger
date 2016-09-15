@@ -10,7 +10,7 @@
 
 #include "PluginProcessor.h"
 #include "PluginEditor.h"
-//#include "vector.h"
+#include "FractionalDelay.h"
 
 //==============================================================================
 FlangerAudioProcessor::FlangerAudioProcessor()
@@ -79,6 +79,14 @@ void FlangerAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBloc
 {
     // Use this method as the place to do any pre-playback
     // initialisation that you need..
+    
+    outputWaveL.initialiseSine(500);
+    outputWaveR.initialiseSine(500);
+    
+    lfoL.initialiseSine(5);
+    lfoR.initialiseSine(5);
+    
+    delay.setBufferSize(2 * lfoSize);
 }
 
 void FlangerAudioProcessor::releaseResources()
@@ -117,8 +125,7 @@ void FlangerAudioProcessor::processBlock (AudioSampleBuffer& buffer, MidiBuffer&
     const int totalNumInputChannels  = getTotalNumInputChannels();
     const int totalNumOutputChannels = getTotalNumOutputChannels();
     
-    outputWaveL.initialiseSine(500);
-    outputWaveR.initialiseSine(500);
+    
     
     // In case we have more outputs than inputs, this code clears any output
     // channels that didn't contain input data, (because these aren't
@@ -134,24 +141,26 @@ void FlangerAudioProcessor::processBlock (AudioSampleBuffer& buffer, MidiBuffer&
     for (int channel = 0; channel < totalNumInputChannels; ++channel)
     {
         float* channelData = buffer.getWritePointer (channel);
-        float flangedData;
+        float flangedData = 0;
         
         float sine;
         
-        //lfo.initialiseSine(1);
         
         for (int i = 0; i < buffer.getNumSamples(); i++){
             
             //LFO = lfo.updateDelta();
             
             if (channel == 0){
-                sine = 0.5 * outputWaveL.updateDelta();
+                sine = 0.5 * (outputWaveL.updateDelta());
+                LFO = roundToInt((lfoL.updateDelta() * lfoSize) + lfoSize);
+                flangedData = delay.processValues(sine, LFO);
+                
             }
             else{
-                sine = 0.5 * outputWaveR.updateDelta();
+                sine = 0; //0.5 * (outputWaveR.updateDelta());
             }
             
-            channelData[i] = sine;
+            channelData[i] = flangedData;
         }
 
         // ..do something to the data...

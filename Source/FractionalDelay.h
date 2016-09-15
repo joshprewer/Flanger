@@ -11,7 +11,28 @@
 #ifndef FRACTIONALDELAY_H_INCLUDED
 #define FRACTIONALDELAY_H_INCLUDED
 
-float processValues(float data, int delay);
+#include "../JuceLibraryCode/JuceHeader.h"
+
+
+class FractionalDelay
+{
+public:
+    
+    FractionalDelay();
+    
+    void setBufferSize(int size);
+    
+    float processValues(float data, int delay);
+    
+private:
+    
+    
+    int index;
+    int bufferSize;
+    float* buffer;
+    float outputValues = 0;
+    
+};
 
 
 

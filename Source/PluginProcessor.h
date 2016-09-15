@@ -65,8 +65,14 @@ private:
     
     SineGenerator outputWaveL;
     SineGenerator outputWaveR;
+    SineGenerator lfoL;
+    SineGenerator lfoR;
     
-    int LFO;
+    FractionalDelay delay;
+    
+    
+    float LFO;
+    int lfoSize = 1102;
     float output;
     
     //==============================================================================
