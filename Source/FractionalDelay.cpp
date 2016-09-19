@@ -16,37 +16,51 @@ FractionalDelay::FractionalDelay()
 {
     index = 0;
     bufferSize = 0;
-    
 }
 
 void FractionalDelay::setBufferSize(int size)
 {
     bufferSize = size;
     buffer = new float[bufferSize];
+    clear();
 }
 
-float FractionalDelay::processValues(float data, int delay)
+void FractionalDelay::clear()
 {
- 
-    float m = (data - buffer[index]) / (delay - index);
-    float c = data - (m * delay);
+    std::memset(buffer, 0, bufferSize);
+}
+
+void FractionalDelay::addSampleToBuffer(float data, int delay)
+{
     
-    for (int i = index; i <= delay; i++)
-    {
-        float lineData = buffer[i] + (m * (i) + c);
-        
-        if (i == 0)
-        {
-            buffer[0] = lineData;
-        }
-        else
-        {
-            buffer[i] = lineData;
-        }
-        
-    }
+    if(index == bufferSize)
+        index = 0;
     
+    getBufferIndex(index);
+    processValues(data, delay);
+   
+}
+
+void FractionalDelay::getBufferIndex(int index)
+{
+    if (index == 0)
+        bufferIndex = bufferSize;
+    else
+        bufferIndex = index - 1;
+}
+
+float FractionalDelay::getSample()
+{
     index++;
-    return buffer[index];
+    getBufferIndex(index);
+    return buffer[bufferIndex];
+}
+
+void FractionalDelay::processValues(float data, int delay)
+{
+    float m = (data - buffer[bufferIndex]) / delay;
     
+    buffer[index] = buffer[bufferIndex] + m;
 };
+
+

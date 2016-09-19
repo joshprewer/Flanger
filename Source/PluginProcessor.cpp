@@ -153,7 +153,8 @@ void FlangerAudioProcessor::processBlock (AudioSampleBuffer& buffer, MidiBuffer&
             if (channel == 0){
                 sine = 0.5 * (outputWaveL.updateDelta());
                 LFO = roundToInt((lfoL.updateDelta() * lfoSize) + lfoSize);
-                flangedData = delay.processValues(sine, LFO);
+                delay.addSampleToBuffer(sine, LFO);
+                flangedData = delay.getSample();
                 
             }
             else{

@@ -21,16 +21,21 @@ public:
     FractionalDelay();
     
     void setBufferSize(int size);
+    void clear();
     
-    float processValues(float data, int delay);
+    void getBufferIndex(int index);
+    
+    void addSampleToBuffer(float data, int delay);
+    void processValues(float data, int delay);
+    
+    float getSample();
     
 private:
     
-    
     int index;
+    int bufferIndex;
     int bufferSize;
     float* buffer;
-    float outputValues = 0;
     
 };
 
