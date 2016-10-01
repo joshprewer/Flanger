@@ -83,10 +83,11 @@ void FlangerAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBloc
     outputWaveL.initialiseSine(500);
     outputWaveR.initialiseSine(500);
     
-    lfoL.initialiseSine(5);
-    lfoR.initialiseSine(5);
+    lfoL.initialiseSine(2);
+    lfoR.initialiseSine(8);
     
-    delay.setBufferSize(2 * lfoSize);
+    delay.setBufferSize(44100);
+    
 }
 
 void FlangerAudioProcessor::releaseResources()
@@ -125,43 +126,33 @@ void FlangerAudioProcessor::processBlock (AudioSampleBuffer& buffer, MidiBuffer&
     const int totalNumInputChannels  = getTotalNumInputChannels();
     const int totalNumOutputChannels = getTotalNumOutputChannels();
     
+    float sine;
     
-    
-    // In case we have more outputs than inputs, this code clears any output
-    // channels that didn't contain input data, (because these aren't
-    // guaranteed to be empty - they may contain garbage).
-    // This is here to avoid people getting screaming feedback
-    // when they first compile a plugin, but obviously you don't need to keep
-    // this code if your algorithm always overwrites all the output channels.
     for (int i = totalNumInputChannels; i < totalNumOutputChannels; ++i)
         buffer.clear (i, 0, buffer.getNumSamples());
 
-    // This is the place where you'd normally do the guts of your plugin's
-    // audio processing...
+
     for (int channel = 0; channel < totalNumInputChannels; ++channel)
     {
-        float* channelData = buffer.getWritePointer (channel);
-        float flangedData = 0;
-        
-        float sine;
-        
+
+        float* channelData = buffer.getWritePointer(channel);
         
         for (int i = 0; i < buffer.getNumSamples(); i++){
             
-            //LFO = lfo.updateDelta();
-            
             if (channel == 0){
                 sine = 0.5 * (outputWaveL.updateDelta());
-                LFO = roundToInt((lfoL.updateDelta() * lfoSize) + lfoSize);
-                delay.addSampleToBuffer(sine, LFO);
-                flangedData = delay.getSample();
                 
-            }
-            else{
-                sine = 0; //0.5 * (outputWaveR.updateDelta());
+                LFO = (delayTimeOvertwo * (1 + lfoL.updateDelta() * depth)) * 44100;
+                if (LFO > 44100)
+                    LFO = 44100;
+                
+                delay.addSampleToBuffer(sine);
+                flangedData = delay.getSample(LFO);
+                
+                channelData[i] = flangedData;
             }
             
-            channelData[i] = flangedData;
+            buffer.getWritePointer(1)[i] = 0;
         }
 
         // ..do something to the data...

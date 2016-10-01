@@ -19,22 +19,29 @@ class FractionalDelay
 public:
     
     FractionalDelay();
-    
     void setBufferSize(int size);
-    void clear();
     
-    void getBufferIndex(int index);
+    void addSampleToBuffer(float data);
     
-    void addSampleToBuffer(float data, int delay);
-    void processValues(float data, int delay);
-    
-    float getSample();
+    float getSample(float delay);
     
 private:
+
+    void clear();
     
-    int index;
-    int bufferIndex;
+    void getreadOffset();
+    float interpolate();
+
+    float readOffset = 0;
+    float offset;
+    int writePos = 0;
+    int readPos = 0;
+    float outputSample;
+    float nextSample;
+    
+    
     int bufferSize;
+    float frac;
     float* buffer;
     
 };

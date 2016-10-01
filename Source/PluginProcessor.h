@@ -70,10 +70,12 @@ private:
     
     FractionalDelay delay;
     
+    float delayTimeOvertwo = 0.1;
     
     float LFO;
-    int lfoSize = 1100;
-    float output;
+    int lfoSize = 20;
+    float flangedData;
+    float depth = 0.;
     
     //==============================================================================
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (FlangerAudioProcessor)

@@ -14,7 +14,7 @@
 
 FractionalDelay::FractionalDelay()
 {
-    index = 0;
+    
     bufferSize = 0;
 }
 
@@ -30,37 +30,35 @@ void FractionalDelay::clear()
     std::memset(buffer, 0, bufferSize);
 }
 
-void FractionalDelay::addSampleToBuffer(float data, int delay)
+void FractionalDelay::addSampleToBuffer(float data)
 {
-    
-    if(index == bufferSize)
-        index = 0;
-    
-    getBufferIndex(index);
-    processValues(data, delay);
-   
+    buffer[writePos] = data;
+    writePos = (writePos != bufferSize - 1 ? writePos + 1 : 0);
 }
 
-void FractionalDelay::getBufferIndex(int index)
-{
-    if (index == 0)
-        bufferIndex = bufferSize;
-    else
-        bufferIndex = index - 1;
-}
 
-float FractionalDelay::getSample()
+float FractionalDelay::getSample(float delay)
 {
-    index++;
-    getBufferIndex(index);
-    return buffer[bufferIndex];
-}
-
-void FractionalDelay::processValues(float data, int delay)
-{
-    float m = (data - buffer[bufferIndex]) / delay;
+    offset = delay;
+    getreadOffset();
     
-    buffer[index] = buffer[bufferIndex] + m;
-};
+    return interpolate();
+}
 
 
+void FractionalDelay::getreadOffset()
+{
+    readOffset = writePos - offset;
+    readOffset = (readOffset >= 0 ? (readOffset < bufferSize ? readOffset : readOffset - bufferSize)
+                  : readOffset + bufferSize);
+    
+}
+
+float FractionalDelay::interpolate()
+{
+    readPos = (int) readOffset;
+    frac = readOffset - readOffset;
+    nextSample = (readPos != bufferSize - 1 ? buffer[readPos+1] : buffer[0]);
+    return outputSample = buffer[readPos] + frac * (nextSample - buffer[readPos]);
+    
+}
