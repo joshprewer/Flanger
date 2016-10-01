@@ -83,10 +83,11 @@ void FlangerAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBloc
     outputWaveL.initialiseSine(500);
     outputWaveR.initialiseSine(500);
     
-    lfoL.initialiseSine(2);
-    lfoR.initialiseSine(8);
+    lfoL.initialiseSine(1);
+    lfoR.initialiseSine(1);
     
-    delay.setBufferSize(44100);
+    delayL.setBufferSize(44100);
+    delayR.setBufferSize(44100);
     
 }
 
@@ -146,13 +147,26 @@ void FlangerAudioProcessor::processBlock (AudioSampleBuffer& buffer, MidiBuffer&
                 if (LFO > 44100)
                     LFO = 44100;
                 
-                delay.addSampleToBuffer(sine);
-                flangedData = delay.getSample(LFO);
+                delayL.addSampleToBuffer(sine);
+                flangedData = delayL.getSample(LFO);
+                
+                channelData[i] = flangedData;
+            }
+            else
+            {
+                sine = 0.5 * (outputWaveR.updateDelta());
+                
+                LFO = (delayTimeOvertwo * (1 + lfoR.updateDelta() * depth)) * 44100;
+                if (LFO > 44100)
+                    LFO = 44100;
+                
+                delayR.addSampleToBuffer(sine);
+                flangedData = delayR.getSample(LFO);
                 
                 channelData[i] = flangedData;
             }
             
-            buffer.getWritePointer(1)[i] = 0;
+        
         }
 
         // ..do something to the data...

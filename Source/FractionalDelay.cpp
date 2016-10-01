@@ -57,7 +57,7 @@ void FractionalDelay::getreadOffset()
 float FractionalDelay::interpolate()
 {
     readPos = (int) readOffset;
-    frac = readOffset - readOffset;
+    frac = readOffset - readPos;
     nextSample = (readPos != bufferSize - 1 ? buffer[readPos+1] : buffer[0]);
     return outputSample = buffer[readPos] + frac * (nextSample - buffer[readPos]);
     

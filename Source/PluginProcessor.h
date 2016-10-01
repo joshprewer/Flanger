@@ -68,14 +68,15 @@ private:
     SineGenerator lfoL;
     SineGenerator lfoR;
     
-    FractionalDelay delay;
+    FractionalDelay delayL;
+    FractionalDelay delayR;
     
-    float delayTimeOvertwo = 0.1;
+    float delayTimeOvertwo = 0.008;
     
     float LFO;
     int lfoSize = 20;
+    float depth = 0.5;
     float flangedData;
-    float depth = 0.;
     
     //==============================================================================
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (FlangerAudioProcessor)
