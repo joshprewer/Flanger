@@ -18,7 +18,7 @@ class SineGenerator
 {
 public:
     
-    void initialiseSine(double freqeuncy);
+    void initialiseSine(double frequency);
     
     float updateDelta();
     

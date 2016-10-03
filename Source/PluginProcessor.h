@@ -26,6 +26,9 @@ public:
     FlangerAudioProcessor();
     ~FlangerAudioProcessor();
 
+    float depth, rate, mix, delay, feedback;
+    
+    
     //==============================================================================
     void prepareToPlay (double sampleRate, int samplesPerBlock) override;
     void releaseResources() override;
@@ -60,9 +63,6 @@ public:
 
 private:
     
-    
-    //SineGenerator lfo;
-    
     SineGenerator outputWaveL;
     SineGenerator outputWaveR;
     SineGenerator lfoL;
@@ -71,11 +71,11 @@ private:
     FractionalDelay delayL;
     FractionalDelay delayR;
     
-    float delayTimeOvertwo = 0.008;
+    float delayTimeOvertwo = 0.004;
     
     float LFO;
+    float inputData;
     int lfoSize = 20;
-    float depth = 0.5;
     float flangedData;
     
     //==============================================================================

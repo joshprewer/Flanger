@@ -34,11 +34,12 @@ private:
 
     float readOffset = 0;
     float offset;
+    
     int writePos = 0;
     int readPos = 0;
+    
     float outputSample;
     float nextSample;
-    
     
     int bufferSize;
     float frac;

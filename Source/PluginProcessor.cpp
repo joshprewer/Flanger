@@ -83,9 +83,6 @@ void FlangerAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBloc
     outputWaveL.initialiseSine(500);
     outputWaveR.initialiseSine(500);
     
-    lfoL.initialiseSine(1);
-    lfoR.initialiseSine(1);
-    
     delayL.setBufferSize(44100);
     delayR.setBufferSize(44100);
     
@@ -140,33 +137,40 @@ void FlangerAudioProcessor::processBlock (AudioSampleBuffer& buffer, MidiBuffer&
         
         for (int i = 0; i < buffer.getNumSamples(); i++){
             
+            
+            lfoL.initialiseSine(rate);
+            lfoR.initialiseSine(rate);
+            
+            
             if (channel == 0){
                 sine = 0.5 * (outputWaveL.updateDelta());
+                inputData = channelData[i];
                 
-                LFO = (delayTimeOvertwo * (1 + lfoL.updateDelta() * depth)) * 44100;
+                LFO = (delay * (1 + lfoL.updateDelta() * depth)) * 44100;
                 if (LFO > 44100)
                     LFO = 44100;
                 
-                delayL.addSampleToBuffer(sine);
                 flangedData = delayL.getSample(LFO);
+                delayL.addSampleToBuffer(sine);
                 
-                channelData[i] = flangedData;
+                channelData[i] = (flangedData * mix) + (sine);
+                
             }
             else
             {
                 sine = 0.5 * (outputWaveR.updateDelta());
+                inputData = channelData[i];
                 
-                LFO = (delayTimeOvertwo * (1 + lfoR.updateDelta() * depth)) * 44100;
+                LFO = (delay * (1 + lfoR.updateDelta() * depth)) * 44100;
                 if (LFO > 44100)
                     LFO = 44100;
                 
-                delayR.addSampleToBuffer(sine);
                 flangedData = delayR.getSample(LFO);
+                delayR.addSampleToBuffer(sine);
                 
-                channelData[i] = flangedData;
+                channelData[i] = (flangedData * mix) + sine;
             }
             
-        
         }
 
         // ..do something to the data...

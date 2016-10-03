@@ -10,13 +10,13 @@
 
 #include "SineGenerator.h"
 
-
-void SineGenerator::initialiseSine(double freqeuncy)
+void SineGenerator::initialiseSine(double frequency)
 {
-    kFrequency = freqeuncy;
+    kFrequency = frequency;
     double cyclesPerSample = kFrequency / sampleRate;
     delta = cyclesPerSample * 2 * double_Pi;
 }
+
 
 float SineGenerator::updateDelta()
 {
