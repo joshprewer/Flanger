@@ -14,7 +14,6 @@
 
 FractionalDelay::FractionalDelay()
 {
-    
     bufferSize = 0;
 }
 

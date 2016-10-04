@@ -8,16 +8,16 @@
               pluginIsSynth="0" pluginWantsMidiIn="0" pluginProducesMidiOut="0"
               pluginIsMidiEffectPlugin="0" pluginEditorRequiresKeys="0" pluginAUExportPrefix="FlangerAU"
               pluginRTASCategory="" aaxIdentifier="com.yourcompany.Flanger"
-              pluginAAXCategory="AAX_ePlugInCategory_Dynamics" jucerVersion="4.2.3">
+              pluginAAXCategory="AAX_ePlugInCategory_Dynamics" jucerVersion="4.2.4">
   <MAINGROUP id="F01P1f" name="Flanger">
     <GROUP id="{3BE0664E-98B2-4042-A0DD-682025FC7094}" name="Source">
+      <FILE id="erDgQY" name="toneGenerator.cpp" compile="1" resource="0"
+            file="Source/toneGenerator.cpp"/>
+      <FILE id="GthGe4" name="toneGenerator.h" compile="0" resource="0" file="Source/toneGenerator.h"/>
       <FILE id="JpwO6a" name="FractionalDelay.cpp" compile="1" resource="0"
             file="Source/FractionalDelay.cpp"/>
       <FILE id="S41vCf" name="FractionalDelay.h" compile="0" resource="0"
             file="Source/FractionalDelay.h"/>
-      <FILE id="oRDdzL" name="SineGenerator.cpp" compile="1" resource="0"
-            file="Source/SineGenerator.cpp"/>
-      <FILE id="OfnXOh" name="SineGenerator.h" compile="0" resource="0" file="Source/SineGenerator.h"/>
       <FILE id="tPWQXC" name="PluginProcessor.cpp" compile="1" resource="0"
             file="Source/PluginProcessor.cpp"/>
       <FILE id="ufXrHs" name="PluginProcessor.h" compile="0" resource="0"
@@ -48,6 +48,7 @@
         <MODULEPATH id="juce_audio_formats" path="../JUCE/modules"/>
         <MODULEPATH id="juce_audio_processors" path="../JUCE/modules"/>
         <MODULEPATH id="juce_audio_plugin_client" path="../JUCE/modules"/>
+        <MODULEPATH id="juce_audio_utils" path="../JUCE/modules"/>
       </MODULEPATHS>
     </XCODE_MAC>
   </EXPORTFORMATS>
@@ -57,6 +58,7 @@
     <MODULE id="juce_audio_formats" showAllCode="1" useLocalCopy="0"/>
     <MODULE id="juce_audio_plugin_client" showAllCode="1" useLocalCopy="0"/>
     <MODULE id="juce_audio_processors" showAllCode="1" useLocalCopy="0"/>
+    <MODULE id="juce_audio_utils" showAllCode="1" useLocalCopy="0"/>
     <MODULE id="juce_core" showAllCode="1" useLocalCopy="0"/>
     <MODULE id="juce_cryptography" showAllCode="1" useLocalCopy="0"/>
     <MODULE id="juce_data_structures" showAllCode="1" useLocalCopy="0"/>

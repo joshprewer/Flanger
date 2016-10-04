@@ -24,16 +24,21 @@ public:
     FlangerAudioProcessorEditor (FlangerAudioProcessor&);
     ~FlangerAudioProcessorEditor();
 
+    
     //==============================================================================
     void paint (Graphics&) override;
     void resized() override;
-
+    
+    
+    
 private:
     // This reference is provided as a quick way for your editor to
     // access the processor object that created it.
     FlangerAudioProcessor& processor;
     
     void sliderValueChanged (Slider* slider) override;
+    
+    
     
     Slider depthSlider;
     Label depthLabel;
@@ -46,7 +51,7 @@ private:
     
     Slider delaySlider;
     Label delayLabel;
-
+    
     Slider feedbackSlider;
     Label feedbackLabel;
     

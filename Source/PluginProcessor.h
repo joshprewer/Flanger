@@ -12,8 +12,9 @@
 #define PLUGINPROCESSOR_H_INCLUDED
 
 #include "../JuceLibraryCode/JuceHeader.h"
-#include "SineGenerator.h"
+
 #include "FractionalDelay.h"
+#include "toneGenerator.h"
 
 
 //==============================================================================
@@ -63,15 +64,13 @@ public:
 
 private:
     
-    SineGenerator outputWaveL;
-    SineGenerator outputWaveR;
-    SineGenerator lfoL;
-    SineGenerator lfoR;
-    
+    ToneGenerator lfoL;
+    ToneGenerator lfoR;
+    ToneGenerator toneL;
+    ToneGenerator toneR;
+
     FractionalDelay delayL;
     FractionalDelay delayR;
-    
-    float delayTimeOvertwo = 0.004;
     
     float LFO;
     float inputData;

@@ -15,6 +15,7 @@
 //==============================================================================
 FlangerAudioProcessor::FlangerAudioProcessor()
 {
+    
 }
 
 FlangerAudioProcessor::~FlangerAudioProcessor()
@@ -80,11 +81,12 @@ void FlangerAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBloc
     // Use this method as the place to do any pre-playback
     // initialisation that you need..
     
-    outputWaveL.initialiseSine(500);
-    outputWaveR.initialiseSine(500);
     
     delayL.setBufferSize(44100);
     delayR.setBufferSize(44100);
+    
+    toneL.initialiseWave(500, 0.5, 44100, ToneGenerator::SAW);
+    toneR.initialiseWave(500, 0.5, 44100, ToneGenerator::SAW);
     
 }
 
@@ -124,8 +126,6 @@ void FlangerAudioProcessor::processBlock (AudioSampleBuffer& buffer, MidiBuffer&
     const int totalNumInputChannels  = getTotalNumInputChannels();
     const int totalNumOutputChannels = getTotalNumOutputChannels();
     
-    float sine;
-    
     for (int i = totalNumInputChannels; i < totalNumOutputChannels; ++i)
         buffer.clear (i, 0, buffer.getNumSamples());
 
@@ -138,39 +138,46 @@ void FlangerAudioProcessor::processBlock (AudioSampleBuffer& buffer, MidiBuffer&
         for (int i = 0; i < buffer.getNumSamples(); i++){
             
             
-            lfoL.initialiseSine(rate);
-            lfoR.initialiseSine(rate);
+            lfoL.initialiseWave(rate, 1, 44100, ToneGenerator::SINE);
+            lfoR.initialiseWave(rate, 1, 44100, ToneGenerator::SINE);
+            
+            float tone;
             
             
             if (channel == 0){
-                sine = 0.5 * (outputWaveL.updateDelta());
+                tone = toneL.getValue();
                 inputData = channelData[i];
                 
-                LFO = (delay * (1 + lfoL.updateDelta() * depth)) * 44100;
+                LFO = (delay * (1 + lfoL.getValue() * depth)) * 44100;
+                if (delay == 0)
+                    LFO = 0;
                 if (LFO > 44100)
                     LFO = 44100;
                 
                 flangedData = delayL.getSample(LFO);
-                delayL.addSampleToBuffer(sine);
+                delayL.addSampleToBuffer(inputData + (feedback * flangedData));
                 
-                channelData[i] = (flangedData * mix) + (sine);
-                
+                channelData[i] = (flangedData * mix) + (inputData * (1 - mix));
+        
             }
             else
             {
-                sine = 0.5 * (outputWaveR.updateDelta());
+                tone = toneR.getValue();
                 inputData = channelData[i];
                 
-                LFO = (delay * (1 + lfoR.updateDelta() * depth)) * 44100;
+                LFO = (delay * (1 + lfoR.getValue() * depth)) * 44100;
+                if (delay == 0)
+                    LFO = 0;
                 if (LFO > 44100)
                     LFO = 44100;
                 
                 flangedData = delayR.getSample(LFO);
-                delayR.addSampleToBuffer(sine);
+                delayR.addSampleToBuffer(inputData + (feedback * flangedData));
                 
-                channelData[i] = (flangedData * mix) + sine;
+                channelData[i] = (flangedData * mix) + (inputData * (1 - mix));
             }
             
+        
         }
 
         // ..do something to the data...

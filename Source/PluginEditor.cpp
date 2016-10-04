@@ -70,7 +70,7 @@ FlangerAudioProcessorEditor::FlangerAudioProcessorEditor (FlangerAudioProcessor&
     mixSlider.addListener(this);
     
     delaySlider.setSliderStyle(Slider::RotaryVerticalDrag);
-    delaySlider.setRange(0.04, 15, 0.1);
+    delaySlider.setRange(0, 15, 0.1);
     delaySlider.setTextBoxStyle(Slider::TextBoxBelow, false, 50, 25);
     delaySlider.setTextValueSuffix("ms");
     delaySlider.setValue(7.5);
@@ -89,8 +89,8 @@ FlangerAudioProcessorEditor::FlangerAudioProcessorEditor (FlangerAudioProcessor&
     feedbackSlider.setSliderStyle(Slider::RotaryVerticalDrag);
     feedbackSlider.setRange(0, 100, 1);
     feedbackSlider.setTextBoxStyle(Slider::TextBoxBelow, false, 50, 25);
-    feedbackSlider.setTextValueSuffix("ms");
-    feedbackSlider.setValue(50);
+    feedbackSlider.setTextValueSuffix("%");
+    feedbackSlider.setValue(0);
     
     addAndMakeVisible(&feedbackSlider);
     
@@ -135,5 +135,5 @@ void FlangerAudioProcessorEditor::sliderValueChanged (Slider* slider)
     processor.rate = rateSlider.getValue();
     processor.mix = mixSlider.getValue() / 100;
     processor.delay = delaySlider.getValue() / 1000;
-    processor.feedback = feedbackSlider.getValue() / 1000;
+    processor.feedback = feedbackSlider.getValue() / 100;
 }
