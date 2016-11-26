@@ -20,7 +20,7 @@
 //==============================================================================
 /**
 */
-class FlangerAudioProcessor  : public AudioProcessor
+class FlangerAudioProcessor  : public AudioProcessor 
 {
 public:
     //==============================================================================
@@ -29,13 +29,12 @@ public:
 
     float depth, rate, mix, delay, feedback;
     
-    
     //==============================================================================
     void prepareToPlay (double sampleRate, int samplesPerBlock) override;
     void releaseResources() override;
 
    #ifndef JucePlugin_PreferredChannelConfigurations
-    bool setPreferredBusArrangement (bool isInput, int bus, const AudioChannelSet& preferredSet) override;
+    bool setPreferredBusArrangement (bool isInput, int bus, const AudioChannelSet& preferredSet) ;
    #endif
 
     void processBlock (AudioSampleBuffer&, MidiBuffer&) override;
@@ -62,6 +61,7 @@ public:
     void getStateInformation (MemoryBlock& destData) override;
     void setStateInformation (const void* data, int sizeInBytes) override;
 
+    
 private:
     
     ToneGenerator lfoL;
@@ -72,6 +72,7 @@ private:
     FractionalDelay delayL;
     FractionalDelay delayR;
     
+
     float LFO;
     float inputData;
     int lfoSize = 20;

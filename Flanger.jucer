@@ -8,7 +8,7 @@
               pluginIsSynth="0" pluginWantsMidiIn="0" pluginProducesMidiOut="0"
               pluginIsMidiEffectPlugin="0" pluginEditorRequiresKeys="0" pluginAUExportPrefix="FlangerAU"
               pluginRTASCategory="" aaxIdentifier="com.yourcompany.Flanger"
-              pluginAAXCategory="AAX_ePlugInCategory_Dynamics" jucerVersion="4.2.4">
+              pluginAAXCategory="AAX_ePlugInCategory_Dynamics" jucerVersion="4.3.0">
   <MAINGROUP id="F01P1f" name="Flanger">
     <GROUP id="{3BE0664E-98B2-4042-A0DD-682025FC7094}" name="Source">
       <FILE id="erDgQY" name="toneGenerator.cpp" compile="1" resource="0"

@@ -81,13 +81,11 @@ void FlangerAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBloc
     // Use this method as the place to do any pre-playback
     // initialisation that you need..
     
-    
     delayL.setBufferSize(44100);
     delayR.setBufferSize(44100);
     
-    toneL.initialiseWave(500, 0.5, 44100, ToneGenerator::SAW);
-    toneR.initialiseWave(500, 0.5, 44100, ToneGenerator::SAW);
-    
+    toneL.initialiseWave(1000, 0.5, 44100, ToneGenerator::TRIANGLE);
+    toneR.initialiseWave(1000, 0.5, 44100, ToneGenerator::TRIANGLE);
 }
 
 void FlangerAudioProcessor::releaseResources()
@@ -113,11 +111,11 @@ bool FlangerAudioProcessor::setPreferredBusArrangement (bool isInput, int bus, c
     if (numChannels != 1 && numChannels != 2)
         return false;
 
-    if (! AudioProcessor::setPreferredBusArrangement (! isInput, bus, preferredSet))
+    if (! setPreferredBusArrangement (! isInput, bus, preferredSet))
         return false;
    #endif
 
-    return AudioProcessor::setPreferredBusArrangement (isInput, bus, preferredSet);
+    return setPreferredBusArrangement (isInput, bus, preferredSet);
 }
 #endif
 
@@ -137,25 +135,24 @@ void FlangerAudioProcessor::processBlock (AudioSampleBuffer& buffer, MidiBuffer&
         
         for (int i = 0; i < buffer.getNumSamples(); i++){
             
-            
             lfoL.initialiseWave(rate, 1, 44100, ToneGenerator::SINE);
             lfoR.initialiseWave(rate, 1, 44100, ToneGenerator::SINE);
             
             float tone;
             
-            
             if (channel == 0){
                 tone = toneL.getValue();
-                inputData = channelData[i];
+                inputData = tone;
                 
                 LFO = (delay * (1 + lfoL.getValue() * depth)) * 44100;
+                
                 if (delay == 0)
-                    LFO = 0;
+                    LFO = 1;
                 if (LFO > 44100)
                     LFO = 44100;
                 
                 flangedData = delayL.getSample(LFO);
-                delayL.addSampleToBuffer(inputData + (feedback * flangedData));
+                delayL.addSampleToBuffer(tone + (feedback * flangedData));
                 
                 channelData[i] = (flangedData * mix) + (inputData * (1 - mix));
         
@@ -163,25 +160,25 @@ void FlangerAudioProcessor::processBlock (AudioSampleBuffer& buffer, MidiBuffer&
             else
             {
                 tone = toneR.getValue();
-                inputData = channelData[i];
+                inputData = tone;
                 
                 LFO = (delay * (1 + lfoR.getValue() * depth)) * 44100;
                 if (delay == 0)
-                    LFO = 0;
+                    LFO = 1;
                 if (LFO > 44100)
                     LFO = 44100;
                 
                 flangedData = delayR.getSample(LFO);
                 delayR.addSampleToBuffer(inputData + (feedback * flangedData));
                 
-                channelData[i] = (flangedData * mix) + (inputData * (1 - mix));
+                channelData[i] = (flangedData * mix) + (tone * (1 - mix));
             }
-            
         
         }
 
         // ..do something to the data...
     }
+    
 }
 
 //==============================================================================
