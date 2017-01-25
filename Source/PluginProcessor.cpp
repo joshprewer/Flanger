@@ -84,8 +84,8 @@ void FlangerAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBloc
     delayL.setBufferSize(44100);
     delayR.setBufferSize(44100);
     
-    toneL.initialiseWave(1000, 0.5, 44100, ToneGenerator::TRIANGLE);
-    toneR.initialiseWave(1000, 0.5, 44100, ToneGenerator::TRIANGLE);
+    toneL.initialiseWave(1000, 0.5, 44100, ToneGenerator::SQUARE);
+    toneR.initialiseWave(1000, 0.5, 44100, ToneGenerator::SQUARE);
 }
 
 void FlangerAudioProcessor::releaseResources()
