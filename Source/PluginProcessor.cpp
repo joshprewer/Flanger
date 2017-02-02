@@ -140,7 +140,8 @@ void FlangerAudioProcessor::processBlock (AudioSampleBuffer& buffer, MidiBuffer&
         
         for (int i = 0; i < buffer.getNumSamples(); i++){
                                               
-            if (channel == 0){
+            if (channel == 0)
+			{
                 inputData = toneL.getValue();
                  
                 LFO = (delay * (1 + lfoL.getValue() * depth)) * SR;                
@@ -149,11 +150,9 @@ void FlangerAudioProcessor::processBlock (AudioSampleBuffer& buffer, MidiBuffer&
                 flangedData = delayL.getSample(LFO);
                 delayL.addSampleToBuffer(inputData + (feedback * flangedData));
                 
-				channelData[i] = (flangedData * mix) + (inputData * (1 - mix));
-        
             }
             else
-            {
+			{
                 inputData = toneR.getValue();
                                 
                 LFO = (delay * (1 + lfoR.getValue() * depth)) * SR;              
@@ -161,15 +160,11 @@ void FlangerAudioProcessor::processBlock (AudioSampleBuffer& buffer, MidiBuffer&
                 
                 flangedData = delayR.getSample(LFO);
                 delayR.addSampleToBuffer(inputData + (feedback * flangedData));
-                
-                channelData[i] = (flangedData * mix) + (inputData * (1 - mix));
             }
-        
-        }
 
-        // ..do something to the data...
-    }
-    
+			channelData[i] = (flangedData * mix) + (inputData * (1 - mix));
+        }
+    }    
 }
 
 //==============================================================================
