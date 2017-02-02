@@ -39,9 +39,9 @@ private:
     
     float m;
     float n;
-    int tick;
+    int tick = 0;
     float output;
-    float currentAngle;
+    float currentAngle = 0;
 };
 
 

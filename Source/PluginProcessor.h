@@ -27,8 +27,12 @@ public:
     FlangerAudioProcessor();
     ~FlangerAudioProcessor();
 
-    float depth, rate, mix, delay, feedback;
-    
+	float depth = 0.43;
+	float rate = 2.5;
+	float mix = 0.4;
+	float delay = 0.0093;
+	float feedback = 0.5;
+
     //==============================================================================
     void prepareToPlay (double sampleRate, int samplesPerBlock) override;
     void releaseResources() override;
@@ -72,10 +76,12 @@ private:
     FractionalDelay delayL;
     FractionalDelay delayR;
     
+	double SR;
 
     float LFO;
+	int lfoSize = 20;
+
     float inputData;
-    int lfoSize = 20;
     float flangedData;
     
     //==============================================================================
